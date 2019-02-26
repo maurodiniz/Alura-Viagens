@@ -56,7 +56,7 @@
 		26E74E8B2221BF3D00338E86 /* Alura_ViagensUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alura_ViagensUITests.swift; sourceTree = "<group>"; };
 		26E74E8D2221BF3D00338E86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		26FEB2B82224ABE0006424F7 /* Viagem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viagem.swift; sourceTree = "<group>"; };
-		26FEB2BC2224AFA8006424F7 /* ViagemDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViagemDAO.swift; path = "Arquivos Projeto/ViagemDAO.swift"; sourceTree = SOURCE_ROOT; };
+		26FEB2BC2224AFA8006424F7 /* ViagemDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViagemDAO.swift; path = "Alura Viagens/ViagemDAO/ViagemDAO.swift"; sourceTree = SOURCE_ROOT; };
 		26FEB2BE2224B4A0006424F7 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		26FEB2C12224B909006424F7 /* img5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img5.jpg; sourceTree = "<group>"; };
 		26FEB2C22224B909006424F7 /* img4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = img4.jpg; sourceTree = "<group>"; };
@@ -90,6 +90,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		260AF8752225F2380028DF75 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26FEB2B82224ABE0006424F7 /* Viagem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		260AF8762225F2940028DF75 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				260AF8782225F3030028DF75 /* View */,
+				260AF8772225F2F00028DF75 /* Controller */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		260AF8772225F2F00028DF75 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				26E74E6D2221BF3C00338E86 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		260AF8782225F3030028DF75 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				26FEB2BE2224B4A0006424F7 /* TableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		260AF8792225F32C0028DF75 /* ViagemDAO */ = {
+			isa = PBXGroup;
+			children = (
+				26FEB2BC2224AFA8006424F7 /* ViagemDAO.swift */,
+			);
+			path = ViagemDAO;
+			sourceTree = "<group>";
+		};
 		26E74E5F2221BF3B00338E86 = {
 			isa = PBXGroup;
 			children = (
@@ -114,10 +155,9 @@
 			isa = PBXGroup;
 			children = (
 				26E74E6B2221BF3C00338E86 /* AppDelegate.swift */,
-				26E74E6D2221BF3C00338E86 /* ViewController.swift */,
-				26FEB2B82224ABE0006424F7 /* Viagem.swift */,
-				26FEB2BC2224AFA8006424F7 /* ViagemDAO.swift */,
-				26FEB2BE2224B4A0006424F7 /* TableViewCell.swift */,
+				260AF8792225F32C0028DF75 /* ViagemDAO */,
+				260AF8752225F2380028DF75 /* Model */,
+				260AF8762225F2940028DF75 /* Home */,
 				26E74E6F2221BF3C00338E86 /* Main.storyboard */,
 				26FEB2C02224B909006424F7 /* Assets */,
 				26E74E722221BF3D00338E86 /* Assets.xcassets */,

@@ -43,6 +43,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.labelPreco.text = viagemAtual.preco
         cell.imagemViagem.image = UIImage(named: viagemAtual.caminhoDaImagem)
         
+        // comandos para deixar a imagem de cada célula com os cantos arredondados.
+        cell.imagemViagem.layer.cornerRadius = 10
+        cell.imagemViagem.layer.masksToBounds = true
+        
         return cell
     }
     
