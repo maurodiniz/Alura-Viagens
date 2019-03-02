@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         cell.labelTitulo.text = viagemAtual.titulo
         cell.labelQuantidadeDeDias.text = "\(viagemAtual.quantidadeDeDias) dias"
-        cell.labelPreco.text = viagemAtual.preco
+        cell.labelPreco.text = "R$\(viagemAtual.preco)"
         cell.imagemViagem.image = UIImage(named: viagemAtual.caminhoDaImagem)
         
         // comandos para deixar a imagem de cada célula com os cantos arredondados.
@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // Método do UITableViewDelegate, e usamos para configurar a altura das celulas do Table View
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 175
+        return UIDevice.current.userInterfaceIdiom  == UIUserInterfaceIdiom.phone ? 175 : 260
     }
 }
 
