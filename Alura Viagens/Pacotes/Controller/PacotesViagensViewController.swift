@@ -10,7 +10,8 @@ import UIKit
 
 // Implementando o protocolo UICollectionViewDataSource, para que eu tenha acesso aos metodos que dizem à viewCollection quantos ele deve exibir e renderizar.
 // UISearchBarDelegate -> protocolo com uma variedade de métodos que precisamos implementar para fazer a search bar funcionar.
-class PacotesViagensViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
+// UICollectionViewDelegate -> Protocolo que me permite manipular os itens de um collectionView, por exemplo para clicar em 1 item e mostrar uma tela específica do item clicado.
+class PacotesViagensViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UICollectionViewDelegate {
 
     @IBOutlet weak var ColecaoPacotesViagem: UICollectionView!
     
@@ -18,8 +19,8 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
     
     @IBOutlet weak var labelContadorPacotes: UILabel!
     
-    let listaComTodasViagens: Array<Viagem> = ViagemDAO().retornaTodasAsViagens()
-    var listaViagens: Array<Viagem> = []
+    let listaComTodasViagens: Array<PacoteViagem> = PacoteViagemDAO().retornaTodasAsViagens()
+    var listaViagens: Array<PacoteViagem> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,12 +42,12 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let celulaPacote = collectionView.dequeueReusableCell(withReuseIdentifier: "celulaPacote", for: indexPath) as! PacoteViagemCollectionViewCell
         
-        let viagemAtual = listaViagens[indexPath.item]
+        let pacoteAtual = listaViagens[indexPath.item]
         
-        celulaPacote.labelTitulo.text = viagemAtual.titulo
-        celulaPacote.labelQuantidadeDias.text = "\(viagemAtual.quantidadeDeDias) dias"
-        celulaPacote.labelPreco.text = "R$\(viagemAtual.preco)"
-        celulaPacote.imagemViagem.image = UIImage(named: viagemAtual.caminhoDaImagem)
+        celulaPacote.labelTitulo.text = pacoteAtual.viagem.titulo
+        celulaPacote.labelQuantidadeDias.text = "\(pacoteAtual.viagem.quantidadeDeDias) dias"
+        celulaPacote.labelPreco.text = "R$\(pacoteAtual.viagem.preco)"
+        celulaPacote.imagemViagem.image = UIImage(named: pacoteAtual.viagem.caminhoDaImagem)
         
         // setando a borda e o arredondamento da célula, pois por padrão estava transparente e sem arredondamento
         celulaPacote.layer.borderWidth = 0.5
@@ -64,6 +65,19 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
         return CGSize(width: larguraCelula, height: 160)
     }
     
+    // Método do protocolo UICollectionViewDelegate onde podemos executar algo após o usuário clicar em um item da collectionView. Nesse caso chamei a tela de detalhes da Viagem.
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // setando o item selecionado
+        let pacote = listaViagens[indexPath.item]
+        // Setando o storyboard onde o view controller está
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        // Setando qual viewController desejo mostrar através do identificador
+        let controller = storyboard.instantiateViewController(withIdentifier: "detalhes") as! DetalhesViagensViewController
+        controller.pacoteSelecionado = pacote
+        // mostrando o controller
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     
     // Método do protocolo UISearchBarDelegate responsável por filtrar a lista de pacotes de acordo com o que o usuário digitar no searchBar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -73,7 +87,7 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
             
             // NSPredicate é uma classe do Objective-C, portanto tive que adicionar o código "@objc" na definição do campo titulo lá na classe Viagem.swift, pois senão o compilador apontava erro. A sintaxe [cd] logo após o contains significa que é para o filtro ignorar case sensitive(c) e acentuação(d)
             let filtroListaViagem = NSPredicate(format: "titulo contains[cd] %@", searchText)
-            let listaFiltrada:Array<Viagem> = (listaViagens as NSArray).filtered(using: filtroListaViagem) as! Array
+            let listaFiltrada:Array<PacoteViagem> = (listaViagens as NSArray).filtered(using: filtroListaViagem) as! Array
             listaViagens = listaFiltrada
         }
         
