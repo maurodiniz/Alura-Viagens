@@ -18,11 +18,17 @@ class DetalhesViagensViewController: UIViewController {
     @IBOutlet weak var imagemPassagemAerea: UIImageView!
     @IBOutlet weak var imagemHotel: UIImageView!
     @IBOutlet weak var imagemCafeDaManha: UIImageView!
+    @IBOutlet weak var scrollPrincipal: UIScrollView!
+    @IBOutlet weak var textFieldData: UITextField!
+    
+    
     
     var pacoteSelecionado: PacoteViagem? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(aumentarScroll(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         if let pacote = pacoteSelecionado{
             self.imagemPacoteViagem.image = UIImage(named: pacote.viagem.caminhoDaImagem)
@@ -30,15 +36,32 @@ class DetalhesViagensViewController: UIViewController {
             self.labelDescricaoPacoteViagem.text = pacote.descricao
             self.labelDataViagem.text = pacote.dataViagem
             self.labelPrecoPacoteViagem.text = pacote.viagem.preco
-            
-           /* self.imagemPassagemAerea.image = UIImage(named: "icon_airplane.png")
-            self.imagemHotel.image = UIImage(named: "icon_hotel.png")
-            self.imagemCafeDaManha.image = UIImage(named: "icon_breakfast.png") */
         }
         
     }
     
+    // função que aumenta a area da tela para que o usuário possa usar a barra de rolagem
+    @objc func aumentarScroll(notification: Notification){
+        self.scrollPrincipal.contentSize = CGSize(width: self.scrollPrincipal.frame.width, height: self.scrollPrincipal.frame.height + 320)
+    }
+    
     @IBAction func botaoVoltar(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    // Action criada para substituir o teclado padrão pelo teclado de data quando o text field correspondente entrar em foco
+    @IBAction func textFieldEntrouFoco(_ sender: UITextField) {
+        let datePickerView = UIDatePicker()
+        
+        datePickerView.datePickerMode = .date
+        sender.inputView = datePickerView
+        datePickerView.addTarget(self, action: #selector(exibeDataTextField(sender:)), for: .valueChanged)
+    }
+    
+    // função que atualiza o campo de data conforme o usuário modificar a data no teclado
+    @objc func exibeDataTextField(sender: UIDatePicker){
+        let formatador = DateFormatter()
+        formatador.dateFormat = "dd/MM/YYYY"
+        self.textFieldData.text = formatador.string(from: sender.date)
     }
 }
