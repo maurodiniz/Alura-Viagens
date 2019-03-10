@@ -44,25 +44,14 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
         
         let pacoteAtual = listaViagens[indexPath.item]
         
-        celulaPacote.labelTitulo.text = pacoteAtual.viagem.titulo
-        celulaPacote.labelQuantidadeDias.text = "\(pacoteAtual.viagem.quantidadeDeDias) dias"
-        celulaPacote.labelPreco.text = "R$\(pacoteAtual.viagem.preco)"
-        celulaPacote.imagemViagem.image = UIImage(named: pacoteAtual.viagem.caminhoDaImagem)
-        
-        // setando a borda e o arredondamento da célula, pois por padrão estava transparente e sem arredondamento
-        celulaPacote.layer.borderWidth = 0.5
-        celulaPacote.layer.borderColor = UIColor(red: 85.0/255.0, green: 85.0/255.0, blue: 85.0/255.0, alpha: 1).cgColor
-        celulaPacote.layer.cornerRadius = 8
+        celulaPacote.configuraCelula(pacoteAtual)
         
         return celulaPacote
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let larguraCelula = (collectionView.bounds.width / 2) - 15
-        
-        
-        return CGSize(width: larguraCelula, height: 160)
+        return UIDevice.current.userInterfaceIdiom == .phone ? CGSize(width: collectionView.bounds.width / 2-20, height: 160) : CGSize(width: collectionView.bounds.width / 3-20, height: 250)
     }
     
     // Método do protocolo UICollectionViewDelegate onde podemos executar algo após o usuário clicar em um item da collectionView. Nesse caso chamei a tela de detalhes da Viagem.
@@ -75,7 +64,7 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
         let controller = storyboard.instantiateViewController(withIdentifier: "detalhes") as! DetalhesViagensViewController
         controller.pacoteSelecionado = pacote
         // mostrando o controller
-        self.present(controller, animated: true, completion: nil)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     
@@ -86,9 +75,7 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
         if searchText != "" {
             
             // NSPredicate é uma classe do Objective-C, portanto tive que adicionar o código "@objc" na definição do campo titulo lá na classe Viagem.swift, pois senão o compilador apontava erro. A sintaxe [cd] logo após o contains significa que é para o filtro ignorar case sensitive(c) e acentuação(d)
-            let filtroListaViagem = NSPredicate(format: "titulo contains[cd] %@", searchText)
-            let listaFiltrada:Array<PacoteViagem> = (listaViagens as NSArray).filtered(using: filtroListaViagem) as! Array
-            listaViagens = listaFiltrada
+            listaViagens = listaViagens.filter({$0.viagem.titulo.contains(searchText)})
         }
         
         self.labelContadorPacotes.text = self.atualizaContadorLabel()
@@ -98,14 +85,5 @@ class PacotesViagensViewController: UIViewController, UICollectionViewDataSource
     func atualizaContadorLabel() -> String{
         return listaViagens.count == 1 ? "1 pacote encontrado" : "\(listaViagens.count) pacotes encontrados"
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

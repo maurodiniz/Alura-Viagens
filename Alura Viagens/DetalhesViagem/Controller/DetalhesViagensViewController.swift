@@ -46,7 +46,9 @@ class DetalhesViagensViewController: UIViewController {
     }
     
     @IBAction func botaoVoltar(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        if let navigation = self.navigationController{
+            navigation.popToRootViewController(animated: true)
+        }
     }
     
     // Action criada para substituir o teclado padrão pelo teclado de data quando o text field correspondente entrar em foco
@@ -63,5 +65,13 @@ class DetalhesViagensViewController: UIViewController {
         let formatador = DateFormatter()
         formatador.dateFormat = "dd/MM/YYYY"
         self.textFieldData.text = formatador.string(from: sender.date)
+    }
+    @IBAction func botaoFinalizarCompra(_ sender: UIButton) {
+        // Acessando o storyboard e então o viewController que eu desejo mostrar quando o usuário clicar no botão
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "confirmacaoPagamento") as! ConfirmacaoPagamentoViewController
+        controller.pacoteComprado = pacoteSelecionado
+        
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }

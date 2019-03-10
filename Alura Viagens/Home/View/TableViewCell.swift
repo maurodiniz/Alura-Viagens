@@ -16,4 +16,15 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var labelPreco: UILabel!
     @IBOutlet weak var imagemViagem: UIImageView!
     
+    func configuraCelula(_ viagem: Viagem) {
+        self.labelTitulo.text = viagem.titulo
+        self.labelQuantidadeDeDias.text = viagem.quantidadeDeDias == 1 ? "1 dia" : "\(viagem.quantidadeDeDias) dias"
+        self.labelPreco.text = "R$\(viagem.preco)"
+        self.imagemViagem.image = UIImage(named: viagem.caminhoDaImagem)
+        
+        // comandos para deixar a imagem de cada célula com os cantos arredondados.
+        self.imagemViagem.layer.cornerRadius = 10
+        self.imagemViagem.layer.masksToBounds = true
+    }
+    
 }

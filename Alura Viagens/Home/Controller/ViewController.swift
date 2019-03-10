@@ -38,14 +38,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let viagemAtual = listaViagens[indexPath.row]
         
-        cell.labelTitulo.text = viagemAtual.titulo
-        cell.labelQuantidadeDeDias.text = "\(viagemAtual.quantidadeDeDias) dias"
-        cell.labelPreco.text = "R$\(viagemAtual.preco)"
-        cell.imagemViagem.image = UIImage(named: viagemAtual.caminhoDaImagem)
-        
-        // comandos para deixar a imagem de cada célula com os cantos arredondados.
-        cell.imagemViagem.layer.cornerRadius = 10
-        cell.imagemViagem.layer.masksToBounds = true
+        cell.configuraCelula(viagemAtual)
         
         return cell
     }
